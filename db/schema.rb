@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2018_11_16_030620) do
     t.date "date"
     t.time "time"
     t.integer "priority"
-    t.boolean "completed"
+    t.boolean "completed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
