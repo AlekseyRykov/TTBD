@@ -10,5 +10,11 @@
   <%= @project.priority %>
 </p>
 
+<h2>Tasks</h2>
+<%= render @project.tasks.select(&:persisted?) %>
+
+<h2>Add task</h2>
+<%= render 'tasks/form' %>
+
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>
