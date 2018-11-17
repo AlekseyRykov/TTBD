@@ -1,8 +1,12 @@
-<p>
-  <strong>Description:</strong>
-  <%= task.description %>
-</p>
-
+<% if task.completed %>
+  <p>
+  <strike><%= task.description %></strike>
+  </p>
+<% else %>
+  <p>
+    <%= task.description %>
+  </p>
+<% end %>
 <p>
   <strong>Date:</strong>
   <%= task.date %>
