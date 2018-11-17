@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
-  before_action :set_project, only: [:create, :destroy]
+  before_action :set_task, only: [:show, :update, :destroy]
+  before_action :set_project, only: [:edit, :create, :destroy]
 
   # GET /tasks
   # GET /tasks.json
@@ -20,6 +20,7 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    @task = @project.tasks.find(params[:id])
   end
 
   # POST /tasks

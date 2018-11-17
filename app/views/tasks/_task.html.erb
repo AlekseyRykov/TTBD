@@ -18,6 +18,5 @@
   <%= task.priority %>
 </p>
 
-<%= link_to 'Edit', [task.project, task] %> |
-<%#= link_to 'Back', project_task_path %> |
+<%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
 <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
