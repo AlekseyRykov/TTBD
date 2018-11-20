@@ -44,7 +44,7 @@ class TasksController < ApplicationController
 
   def complete
     respond_to do |format|
-      @task.update_attribute(:completed, true)
+      @task.update(complete_params)
       format.html { redirect_to @project, notice: 'Task was successfully completed.' }
     end
   end
@@ -70,5 +70,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:project_id, :description, :date, :time, :priority)
+  end
+
+  def complete_params
+    params.require(:complete_status).permit(:completed)
   end
 end

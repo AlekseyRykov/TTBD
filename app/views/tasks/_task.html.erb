@@ -1,10 +1,19 @@
 <% if task.completed %>
   <p>
-  <strike><%= task.description %></strike>
+    <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
+      <input type="checkbox" checked>
+    <% end %>
+    <strike><%= task.description %></strike>
+    <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
   </p>
 <% else %>
   <p>
+    <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
+      <input type="checkbox">
+    <% end %>
     <%= task.description %>
+    <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
+    <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
   </p>
 <% end %>
 <p>
@@ -21,7 +30,3 @@
   <strong>Priority:</strong>
   <%= task.priority %>
 </p>
-
-<%= link_to 'Mark as complete', complete_project_task_path(task.project, task), method: :patch %> |
-<%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
-<%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
