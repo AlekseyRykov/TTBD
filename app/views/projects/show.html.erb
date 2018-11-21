@@ -1,21 +1,130 @@
-<p id="notice"><%= notice %></p>
+<!--<p id="notice"><%#= notice %></p>-->
 
-<p>
-  <strong>Title:</strong>
-  <%= @project.title %>
-</p>
+<!--<p>-->
+<!--  <strong>Title:</strong>-->
+  <%#= @project.title %>
+<!--</p>-->
 
-<p>
-  <strong>Priority:</strong>
-  <%= @project.priority %>
-</p>
+<!--<p>-->
+<!--  <strong>Priority:</strong>-->
+  <%#= @project.priority %>
+<!--</p>-->
 
-<h2>Tasks</h2>
-<%= render @project.tasks.select(&:persisted?) %>
+<!--<h2>Tasks</h2>-->
+<%#= render @project.tasks.select(&:persisted?) %>
 
-<h2>Add task</h2>
-<%= render 'tasks/form' %>
+<!--<h2>Add task</h2>-->
+<%#= render 'tasks/form' %>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %> |
-<%= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %>
+<!--<%#= link_to 'Edit', edit_project_path(@project) %> |-->
+<!--<%#= link_to 'Back', projects_path %> |-->
+<%#= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+<!--class: 'text-light'-->
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <table class="table table-borderless table-sm">
+        <thead>
+        <tr>
+          <th scope="col">Projects</th>
+          <th scope="col" class="text-right">
+            <%= link_to new_project_path, class: 'text-dark' do %>
+              +
+            <% end %>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @projects.each do |project| %>
+          <tr>
+            <td>
+              <%= link_to "#{project.title}", project, class: 'text-dark' %>
+            </td>
+            <td class="text-right">
+              <%= link_to edit_project_path(project), class: 'text-dark' do %>
+                edit
+              <% end %>
+              <%= link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-dark' do %>
+                delete
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-9">
+      <table class="table">
+        <% @project.tasks.each do |task| %>
+          <tr>
+            <td>
+              <% if task.completed %>
+                <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
+                  <input type="checkbox" checked>
+                <% end %>
+                <strike><%= task.description %></strike>
+                <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% else %>
+                <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
+                  <input type="checkbox">
+                <% end %>
+                <%= task.description %>
+                <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
+                <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </td>
+            <td class="text-right">
+              <%= task.date %>
+              <%= task.time.strftime("%H:%M") %>
+              <%= task.priority %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<%= form_with(model: [ @project, @project.tasks.build ], local: true) do |form| %>
+  <% if @task && @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_select :date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time %>
+    <%= form.time_select :time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :priority %>
+    <%= form.select :priority, (1..5) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
