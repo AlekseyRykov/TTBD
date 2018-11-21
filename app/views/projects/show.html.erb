@@ -43,6 +43,9 @@
           <tr>
             <td>
               <%= link_to "#{project.title}", project, class: 'text-dark' %>
+              <% unless project.tasks.count.zero? %>
+                <span class="badge badge-primary badge-pill"> <%= project.tasks.count %></span>
+              <% end %>
             </td>
             <td class="text-right">
               <%= link_to edit_project_path(project), class: 'text-dark' do %>
