@@ -57,10 +57,15 @@
             </td>
           </tr>
         <% end %>
+        <tr>
+          <td colspan="3">
+            <%= render 'form', project: @project %>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-9">
+    <div class="col-8">
       <table class="table">
         <% @project.tasks.each do |task| %>
           <tr>
@@ -80,54 +85,21 @@
                 <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
               <% end %>
             </td>
-            <td class="text-right">
-              <%= task.date %>
-              <%= task.time.strftime("%H:%M") %>
-              <%= task.priority %>
+            <td><%= task.date %></td>
+            <td>
+              <% unless task.time.nil?%>
+                <%= task.time.strftime("%H:%M") %>
+              <% end %>
             </td>
+            <td><%= task.priority %></td>
           </tr>
         <% end %>
+        <tr>
+          <td colspan="4">
+            <%= render 'tasks/form', project: @project %>
+          </td>
+        </tr>
       </table>
     </div>
   </div>
 </div>
-
-
-<%= form_with(model: [ @project, @project.tasks.build ], local: true) do |form| %>
-  <% if @task && @task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
-
-      <ul>
-        <% @task.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :date %>
-    <%= form.date_select :date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :time %>
-    <%= form.time_select :time %>
-  </div>
-
-  <div class="field">
-    <%= form.label :priority %>
-    <%= form.select :priority, (1..5) %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
-

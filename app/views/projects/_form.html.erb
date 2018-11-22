@@ -11,17 +11,24 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+  <div class="input-group mb-3">
+    <%= form.text_field :title, class: 'form-control', placeholder: 'Add project' %>
+    <div class="input-group-append">
+      <%= form.submit :+, class: 'btn btn-outline-secondary'%>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :priority %>
-    <%= form.select :priority, (1..5) %>
-  </div>
+<!--  <div class="field">-->
+    <%#= form.label :title %>
+    <%#= form.text_field :title %>
+<!--  </div>-->
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+<!--  <div class="field">-->
+    <%#= form.label :priority %>
+    <%#= form.select :priority, (1..5) %>
+<!--  </div>-->
+
+<!--  <div class="actions">-->
+    <%#= form.submit %>
+<!--  </div>-->
 <% end %>
