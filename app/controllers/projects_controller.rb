@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     @projects = Project.all
-
+    @project_new = Project.new
   end
 
   # GET /projects/new
