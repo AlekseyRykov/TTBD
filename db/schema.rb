@@ -14,8 +14,10 @@ ActiveRecord::Schema.define(version: 2018_11_16_030620) do
 
   create_table "projects", force: :cascade do |t|
     t.string "title"
+    t.integer "parent_project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_project_id"], name: "index_projects_on_parent_project_id"
   end
 
   create_table "tasks", force: :cascade do |t|

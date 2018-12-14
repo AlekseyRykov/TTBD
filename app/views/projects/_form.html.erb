@@ -18,6 +18,8 @@
     </div>
   </div>
 
+  <%= collection_select(:project, :parent_project_id, Project.all, :id, :title, :prompt => true) %>
+
 <!--  <div class="field">-->
     <%#= form.label :title %>
     <%#= form.text_field :title %>

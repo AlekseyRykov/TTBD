@@ -27,7 +27,7 @@
 <div class="container">
   <div class="row">
     <div class="col-3">
-      <table class="table table-borderless table-sm">
+      <table class="table  table-sm">
         <thead>
         <tr>
           <th scope="col">Projects</th>
@@ -56,6 +56,21 @@
               <% end %>
             </td>
           </tr>
+<!--        <tr>-->
+<!--          <td>-->
+            <%# if project.subprojects.any? %>
+              <%# project.subprojects.each do |subproject| %>
+                <%#= link_to "#{subproject.title}", subproject, class: 'text-dark' %>
+                <%# unless subproject.tasks.count.zero? %>
+<!--                  <span class="badge badge-primary badge-pill"> <%#= subproject.tasks.count %></span>-->
+                <%# end %>
+              <%# end %>
+            <%# end %>
+<!--          </td>-->
+<!--          <td>-->
+
+<!--          </td>-->
+<!--        </tr>-->
         <% end %>
         <tr>
           <td colspan="3">
