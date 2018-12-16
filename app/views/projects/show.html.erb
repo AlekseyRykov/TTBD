@@ -27,7 +27,7 @@
 <div class="container">
   <div class="row">
     <div class="col-3">
-      <table class="table  table-sm">
+      <table class="table table-sm">
         <thead>
         <tr>
           <th scope="col">Projects</th>
@@ -56,21 +56,41 @@
               <% end %>
             </td>
           </tr>
-<!--        <tr>-->
-<!--          <td>-->
-            <%# if project.subprojects.any? %>
-              <%# project.subprojects.each do |subproject| %>
-                <%#= link_to "#{subproject.title}", subproject, class: 'text-dark' %>
-                <%# unless subproject.tasks.count.zero? %>
-<!--                  <span class="badge badge-primary badge-pill"> <%#= subproject.tasks.count %></span>-->
-                <%# end %>
-              <%# end %>
-            <%# end %>
-<!--          </td>-->
-<!--          <td>-->
+          <% if project.subprojects.any? %>
+            <% project.subprojects.each do |subproject| %>
+              <tr>
+                <td>
+                  <%= link_to "#{subproject.title}", subproject, class: 'text-dark' %>
+                  <% unless subproject.tasks.count.zero? %>
+                    <span class="badge badge-primary badge-pill"> <%= subproject.tasks.count %></span>
+                  <% end %>
+                </td>
+                <td class="text-right">
+                  <%= link_to edit_project_path(subproject), class: 'text-dark' do %>
+                    edit
+                  <% end %>
+                  <%= link_to subproject, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-dark' do %>
+                    delete
+                  <% end %>
+                </td>
+              </tr>
+              <% if subproject.subprojects.any? %>
+                <% subproject.subprojects.each do |p| %>
+                  <tr>
+                    <td>
+                      <%= link_to "#{p.title}", p, class: 'text-dark' %>
+                      <% unless p.tasks.count.zero? %>
+                        <span class="badge badge-primary badge-pill"> <%= p.tasks.count %></span>
+                      <% end %>
+                    </td>
+                    <td class="text-right">
 
-<!--          </td>-->
-<!--        </tr>-->
+                    </td>
+                  </tr>
+              <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
         <% end %>
         <tr>
           <td colspan="3">
@@ -118,4 +138,28 @@
       </table>
     </div>
   </div>
+</div>
+
+
+
+
+<div class="sidebar-menu">
+  <ul>
+    <li class="sidebar-dropdown">
+      <a href="#">
+        <i class="fa fa-tachometer-alt"></i>
+        <span>Projects</span>
+        <span class="badge badge-pill badge-danger">New</span>
+      </a>
+      <div class="sidebar-submenu">
+        <ul>
+          <% @projects.each do |project| %>
+          <li>
+            <%= link_to "#{project.title}", project, class: 'text-dark' %>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </li>
+  </ul>
 </div>

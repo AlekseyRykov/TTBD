@@ -4,14 +4,14 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.where(parent_project_id: nil)
     @project = Project.new
   end
 
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @projects = Project.all
+    @projects = Project.where(parent_project_id: nil)
     @project_new = Project.new
   end
 
