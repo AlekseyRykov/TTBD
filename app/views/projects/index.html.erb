@@ -1,76 +1,14 @@
 <!--<p id="notice"><%#= notice %></p>-->
 
-<!--<h1>Projects</h1>-->
-
-<!--<table>-->
-<!--  <thead>-->
-<!--    <tr>-->
-<!--      <th>Title</th>-->
-<!--      <th>Priority</th>-->
-<!--      <th colspan="3"></th>-->
-<!--    </tr>-->
-<!--  </thead>-->
-
-<!--  <tbody>-->
-    <%# @projects.each do |project| %>
-<!--      <tr>-->
-<!--        <td><%#= project.title %></td>-->
-<!--        <td><%#= link_to 'Show', project %></td>-->
-<!--        <td><%#= link_to 'Edit', edit_project_path(project) %></td>-->
-<!--        <td><%#= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
-<!--      </tr>-->
-    <%# end %>
-<!--  </tbody>-->
-<!--</table>-->
-
-<!--<br>-->
-
-<%#= link_to 'New Project', new_project_path %>
-
-<div class="container">
+<div class="grid">
   <div class="row">
-    <div class="col-3">
-      <table class="table table-borderless table-sm">
-        <thead>
-        <tr>
-          <th scope="col">Projects</th>
-          <th scope="col" class="text-right">
-            <%= link_to new_project_path, class: 'text-dark' do %>
-              +
-            <% end %>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @projects.each do |project| %>
-          <tr>
-            <td>
-              <%= link_to "#{project.title}", project, class: 'text-dark' %>
-              <% unless project.tasks.count.zero? %>
-                <span class="badge badge-primary badge-pill"> <%= project.tasks.count %></span>
-              <% end %>
-            </td>
-            <td class="text-right">
-              <%= link_to edit_project_path(project), class: 'text-dark' do %>
-                edit
-              <% end %>
-              <%= link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-dark' do %>
-                delete
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-          <tr>
-            <td colspan="3">
-              <%= render 'form', project: @project %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="cell-3">
+      <div>
+        <%= render 'projects/project' %>
+      </div>
     </div>
-    <div class="col-8">
-      <table class="table">
-      </table>
+    <div class="cell-9">
+      <div>cell-9</div>
     </div>
   </div>
 </div>

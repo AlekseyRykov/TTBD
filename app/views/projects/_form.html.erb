@@ -1,31 +1,21 @@
 <%= form_with(model: project, local: true) do |form| %>
-  <% if project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+  <%# if project.errors.any? %>
+<!--    <div id="error_explanation">-->
+<!--      <h2><%#= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>-->
 
-      <ul>
-      <% project.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<!--      <ul>-->
+      <%# project.errors.full_messages.each do |message| %>
+<!--        <li><%#= message %></li>-->
+      <%# end %>
+<!--      </ul>-->
+<!--    </div>-->
+  <%# end %>
 
-  <div class="input-group mb-3">
-    <%= form.text_field :title, class: 'form-control', placeholder: 'Add project' %>
-    <div class="input-group-append">
-      <%= form.submit :+, class: 'btn btn-outline-secondary'%>
-    </div>
-  </div>
+    <%= form.text_field :title, placeholder: 'Add project', 'data-role' => 'input' %>
 
-  <%= collection_select(:project, :parent_project_id, Project.all, :id, :title, :prompt => true) %>
+    <%= form.collection_select(:parent_project_id, Project.all, :id, :title, :prompt => true) %>
 
-<!--  <div class="field">-->
-    <%#= form.label :title %>
-    <%#= form.text_field :title %>
-<!--  </div>-->
+    <%= form.submit :'Submit' %>
 
-<!--  <div class="actions">-->
-    <%#= form.submit %>
-<!--  </div>-->
 <% end %>
+

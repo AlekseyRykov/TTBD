@@ -1,0 +1,120 @@
+<ul data-role="treeview">
+  <li data-caption="Projects">
+    <ul>
+      <% @projects.each do |project| %>
+        <li >
+          <%= link_to "#{project.title}", project %>
+
+          <% unless project.tasks.count.zero? %>
+            <span class="badge inline"><%= project.tasks.count %></span>
+          <% end %>
+
+          <span style="float:right;">
+            <%= link_to edit_project_path(project) do %>
+              edit
+            <% end %>
+            <%= link_to project, method: :delete, data: {confirm: 'Are you sure?'} do %>
+              delete
+            <% end %>
+          </span>
+
+          <% if project.subprojects.any? %>
+            <% project.subprojects.each do |subproject_1| %>
+              <ul>
+                <li>
+                  <%= link_to "#{subproject_1.title}", subproject_1 %>
+
+                  <% unless subproject_1.tasks.count.zero? %>
+                    <span class="badge inline"><%= subproject_1.tasks.count %></span>
+                  <% end %>
+
+                  <span style="float:right;">
+                    <%= link_to edit_project_path(subproject_1) do %>
+                      edit
+                    <% end %>
+
+                    <%= link_to subproject_1, method: :delete, data: {confirm: 'Are you sure?'} do %>
+                      delete
+                    <% end %>
+                  </span>
+
+                  <% if subproject_1.subprojects.any? %>
+                    <% subproject_1.subprojects.each do |subproject_2| %>
+                      <ul>
+                        <li>
+                          <%= link_to "#{subproject_2.title}", subproject_2 %>
+
+                          <% unless subproject_2.tasks.count.zero? %>
+                            <span class="badge inline"><%= subproject_2.tasks.count %></span>
+                          <% end %>
+
+                          <span style="float:right;">
+                            <%= link_to edit_project_path(subproject_2) do %>
+                              edit
+                            <% end %>
+
+                            <%= link_to subproject_2, method: :delete, data: {confirm: 'Are you sure?'} do %>
+                              delete
+                            <% end %>
+                          </span>
+
+                          <% if subproject_2.subprojects.any? %>
+                            <% subproject_2.subprojects.each do |subproject_3| %>
+                              <ul>
+                                <li>
+                                  <%= link_to "#{subproject_3.title}", subproject_3 %>
+
+                                  <% unless subproject_3.tasks.count.zero? %>
+                                    <span class="badge inline"><%= subproject_3.tasks.count %></span>
+                                  <% end %>
+
+                                  <span style="float:right;">
+                                    <%= link_to edit_project_path(subproject_3) do %>
+                                      edit
+                                    <% end %>
+
+                                    <%= link_to subproject_3, method: :delete, data: {confirm: 'Are you sure?'} do %>
+                                      delete
+                                    <% end %>
+                                  </span>
+                                </li>
+                              </ul>
+                            <% end %>
+                          <% end %>
+                        </li>
+                      </ul>
+                    <% end %>
+                  <% end %>
+                </li>
+              </ul>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+      <li>
+        <button class="button flat-button" id="collapse_toggle_edit">+ Edit project</button>
+        <div class="pos-relative">
+          <div data-role="collapse"
+               data-collapsed="true"
+               data-toggle-element="#collapse_toggle_edit">
+            <%= render 'form', project: @project unless @project.id.nil?  %>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="button flat-button" id="collapse_toggle_add">+ Add project</button>
+        <div class="pos-relative">
+          <div data-role="collapse"
+               data-collapsed="true"
+               data-toggle-element="#collapse_toggle_add">
+            <%= render 'form', project: @project_new %>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<%#= link_to new_project_path do %>
+<!--  +-->
+<%# end %>

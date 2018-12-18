@@ -1,165 +1,49 @@
 <!--<p id="notice"><%#= notice %></p>-->
 
-<!--<p>-->
-<!--  <strong>Title:</strong>-->
-  <%#= @project.title %>
-<!--</p>-->
-
-<!--<p>-->
-<!--  <strong>Priority:</strong>-->
-  <%#= @project.priority %>
-<!--</p>-->
-
-<!--<h2>Tasks</h2>-->
-<%#= render @project.tasks.select(&:persisted?) %>
-
-<!--<h2>Add task</h2>-->
-<%#= render 'tasks/form' %>
-
-<!--<%#= link_to 'Edit', edit_project_path(@project) %> |-->
-<!--<%#= link_to 'Back', projects_path %> |-->
-<%#= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %>
-
-<!--class: 'text-light'-->
-
-
-
-<div class="container">
+<div class="grid">
   <div class="row">
-    <div class="col-3">
-      <table class="table table-sm">
-        <thead>
-        <tr>
-          <th scope="col">Projects</th>
-          <th scope="col" class="text-right">
-            <%= link_to new_project_path, class: 'text-dark' do %>
-              +
-            <% end %>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @projects.each do |project| %>
-          <tr>
-            <td>
-              <%= link_to "#{project.title}", project, class: 'text-dark' %>
-              <% unless project.tasks.count.zero? %>
-                <span class="badge badge-primary badge-pill"> <%= project.tasks.count %></span>
-              <% end %>
-            </td>
-            <td class="text-right">
-              <%= link_to edit_project_path(project), class: 'text-dark' do %>
-                edit
-              <% end %>
-              <%= link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-dark' do %>
-                delete
-              <% end %>
-            </td>
-          </tr>
-          <% if project.subprojects.any? %>
-            <% project.subprojects.each do |subproject| %>
-              <tr>
-                <td>
-                  <%= link_to "#{subproject.title}", subproject, class: 'text-dark' %>
-                  <% unless subproject.tasks.count.zero? %>
-                    <span class="badge badge-primary badge-pill"> <%= subproject.tasks.count %></span>
-                  <% end %>
-                </td>
-                <td class="text-right">
-                  <%= link_to edit_project_path(subproject), class: 'text-dark' do %>
-                    edit
-                  <% end %>
-                  <%= link_to subproject, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-dark' do %>
-                    delete
-                  <% end %>
-                </td>
-              </tr>
-              <% if subproject.subprojects.any? %>
-                <% subproject.subprojects.each do |p| %>
-                  <tr>
-                    <td>
-                      <%= link_to "#{p.title}", p, class: 'text-dark' %>
-                      <% unless p.tasks.count.zero? %>
-                        <span class="badge badge-primary badge-pill"> <%= p.tasks.count %></span>
-                      <% end %>
-                    </td>
-                    <td class="text-right">
-
-                    </td>
-                  </tr>
-              <% end %>
-              <% end %>
-            <% end %>
-          <% end %>
-        <% end %>
-        <tr>
-          <td colspan="3">
-            <%= render 'form', project: @project_new %>
-            <%= render 'form', project: @project %>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="cell-3">
+      <div>
+        <%= render 'projects/project' %>
+      </div>
     </div>
-    <div class="col-8">
-      <table class="table">
-        <% @project.tasks.each do |task| %>
+    <div class="cell-9">
+      <div>
+        <table class="table">
+          <% @project.tasks.each do |task| %>
+            <tr>
+              <td>
+                <% if task.completed %>
+                  <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
+                    <input type="checkbox" checked>
+                  <% end %>
+                  <strike><%= task.description %></strike>
+                  <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% else %>
+                  <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
+                    <input type="checkbox">
+                  <% end %>
+                  <%= task.description %>
+                  <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
+                  <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% end %>
+              </td>
+              <td><%= task.date %></td>
+              <td>
+                <% unless task.time.nil?%>
+                  <%= task.time.strftime("%H:%M") %>
+                <% end %>
+              </td>
+              <td><%= task.priority %></td>
+            </tr>
+          <% end %>
           <tr>
-            <td>
-              <% if task.completed %>
-                <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
-                  <input type="checkbox" checked>
-                <% end %>
-                <strike><%= task.description %></strike>
-                <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% else %>
-                <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
-                  <input type="checkbox">
-                <% end %>
-                <%= task.description %>
-                <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
-                <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
+            <td colspan="4">
+              <%= render 'tasks/form', project: @project %>
             </td>
-            <td><%= task.date %></td>
-            <td>
-              <% unless task.time.nil?%>
-                <%= task.time.strftime("%H:%M") %>
-              <% end %>
-            </td>
-            <td><%= task.priority %></td>
           </tr>
-        <% end %>
-        <tr>
-          <td colspan="4">
-            <%= render 'tasks/form', project: @project %>
-          </td>
-        </tr>
-      </table>
+        </table>
+      </div>
     </div>
   </div>
-</div>
-
-
-
-
-<div class="sidebar-menu">
-  <ul>
-    <li class="sidebar-dropdown">
-      <a href="#">
-        <i class="fa fa-tachometer-alt"></i>
-        <span>Projects</span>
-        <span class="badge badge-pill badge-danger">New</span>
-      </a>
-      <div class="sidebar-submenu">
-        <ul>
-          <% @projects.each do |project| %>
-          <li>
-            <%= link_to "#{project.title}", project, class: 'text-dark' %>
-          </li>
-          <% end %>
-        </ul>
-      </div>
-    </li>
-  </ul>
 </div>

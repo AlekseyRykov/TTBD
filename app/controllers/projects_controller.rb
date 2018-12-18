@@ -6,6 +6,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.where(parent_project_id: nil)
     @project = Project.new
+    @project_new = Project.new
   end
 
   # GET /projects/1
