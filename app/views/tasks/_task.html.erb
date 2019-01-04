@@ -1,32 +1,56 @@
-<% if task.completed %>
-  <p>
-    <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
-      <input type="checkbox" checked>
-    <% end %>
-    <strike><%= task.description %></strike>
-    <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
-  </p>
-<% else %>
-  <p>
-    <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
-      <input type="checkbox">
-    <% end %>
-    <%= task.description %>
-    <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
-    <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
-  </p>
-<% end %>
-<p>
-  <strong>Date:</strong>
-  <%= task.date %>
-</p>
+<ul data-role="treeview">
 
-<p>
-  <strong>Time:</strong>
-  <%= task.time.strftime("%H:%M") %>
-</p>
+    <% @project.tasks.each do |task| %>
+      <li>
+        <% if task.completed %>
+          <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
+            <input type="checkbox" data-role="checkbox" checked>
+          <% end %>
+          <strike><%= task.description %></strike>
+          <%= link_to 'Destroy', [task.project, task], method: :delete, data: {confirm: 'Are you sure?'} %>
+        <% else %>
+          <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
+            <input type="checkbox" data-role="checkbox">
+          <% end %>
+          <%= task.description %>
+          <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
+          <%= link_to 'Destroy', [task.project, task], method: :delete, data: {confirm: 'Are you sure?'} %>
+        <% end %>
+        <%= task.date %>
+        <% unless task.time.nil? %>
+          <%= task.time.strftime("%H:%M") %>
+        <% end %>
+        <%= task.priority %>
 
-<p>
-  <strong>Priority:</strong>
-  <%= task.priority %>
-</p>
+        <% if task.subtasks.any? %>
+          <% task.subtasks.each do |subtask_1| %>
+            <ul>
+              <li>
+                <% if subtask_1.completed %>
+                  <%= link_to complete_project_task_path(subtask_1.project, subtask_1, complete_status: {completed: false}), method: :patch do %>
+                    <input type="checkbox" data-role="checkbox" checked>
+                  <% end %>
+                  <strike><%= subtask_1.description %></strike>
+                  <%= link_to 'Destroy', [subtask_1.project, subtask_1], method: :delete, data: {confirm: 'Are you sure?'} %>
+                <% else %>
+                  <%= link_to complete_project_task_path(subtask_1.project, subtask_1, complete_status: {completed: true}), method: :patch do %>
+                    <input type="checkbox" data-role="checkbox">
+                  <% end %>
+                  <%= subtask_1.description %>
+                  <%= link_to 'Edit', edit_project_task_path(subtask_1.project, subtask_1) %> |
+                  <%= link_to 'Destroy', [subtask_1.project, subtask_1], method: :delete, data: {confirm: 'Are you sure?'} %>
+                <% end %>
+                <%= subtask_1.date %>
+                <% unless subtask_1.time.nil? %>
+                  <%= subtask_1.time.strftime("%H:%M") %>
+                <% end %>
+                <%= subtask_1.priority %>
+              </li>
+            </ul>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+    <li><%= render 'tasks/form', project: @project %></li>
+    <li></li>
+</ul>

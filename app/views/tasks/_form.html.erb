@@ -1,71 +1,20 @@
-<%= form_with(model: [ @project, @project.tasks.build ], local: true) do |form| %>
-  <% if @task && @task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
-
-      <ul>
-        <% @task.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <%= form.submit :+, class: 'btn btn-outline-secondary'%>
-    </div>
-    <%= form.text_field :description, class: 'form-control', placeholder: 'Add task' %>
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Date and Time</button>
-      <div class="dropdown-menu">
-        <%= form.text_field :date, type: 'date', class: 'dropdown-item' %>
-        <%= form.text_field :time, type: 'time', class: 'dropdown-item' %>
-      </div>
-    </div>
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Priority</button>
-      <div class="dropdown-menu">
-        <%= form.select :priority, (1..5) %>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<%#= form_with(model: [ @project, @project.tasks.build ], local: true) do |form| %>
+<%= form_with(model: [@project, @project.tasks.build], local: true) do |form| %>
   <%# if @task && @task.errors.any? %>
-<!--    <div id="error_explanation">-->
-<!--      <h2><%#= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>-->
+  <!--    <div id="error_explanation">-->
+  <!--      <h2><%#= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>-->
 
-<!--      <ul>-->
-      <%# @task.errors.full_messages.each do |message| %>
-<!--        <li><%#= message %></li>-->
-      <%# end %>
-<!--      </ul>-->
-<!--    </div>-->
+  <!--      <ul>-->
+  <%# @task.errors.full_messages.each do |message| %>
+  <!--          <li><%#= message %></li>-->
+  <%# end %>
+  <!--      </ul>-->
+  <!--    </div>-->
   <%# end %>
 
-<!--  <div class="field">-->
-    <%#= form.label :description %>
-    <%#= form.text_area :description %>
-<!--  </div>-->
-
-<!--  <div class="field">-->
-    <%#= form.label :date %>
-    <%#= form.date_select :date %>
-<!--  </div>-->
-
-<!--  <div class="field">-->
-    <%#= form.label :time %>
-    <%#= form.time_select :time %>
-<!--  </div>-->
-
-<!--  <div class="field">-->
-    <%#= form.label :priority %>
-    <%#= form.select :priority, (1..5) %>
-<!--  </div>-->
-
-<!--  <div class="actions">-->
-    <%#= form.submit %>
-<!--  </div>-->
-<%# end %>
+  <%= form.text_field :description, placeholder: 'Add task' %>
+  <%= form.collection_select(:parent_task_id, Task.all, :id, :description, :prompt => true) %>
+  <%= form.text_field :date, 'data-role' => 'calendarpicker' %>
+  <%= form.text_field :time, 'data-role' => "timepicker", 'data-seconds' => "false" %>
+  <%= form.select :priority, (1..5) %>
+  <%= form.submit :'Submit' %>
+<% end %>

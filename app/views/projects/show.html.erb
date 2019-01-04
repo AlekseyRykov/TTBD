@@ -9,40 +9,7 @@
     </div>
     <div class="cell-9">
       <div>
-        <table class="table">
-          <% @project.tasks.each do |task| %>
-            <tr>
-              <td>
-                <% if task.completed %>
-                  <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: false}), method: :patch do %>
-                    <input type="checkbox" checked>
-                  <% end %>
-                  <strike><%= task.description %></strike>
-                  <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
-                <% else %>
-                  <%= link_to complete_project_task_path(task.project, task, complete_status: {completed: true}), method: :patch do %>
-                    <input type="checkbox">
-                  <% end %>
-                  <%= task.description %>
-                  <%= link_to 'Edit', edit_project_task_path(task.project, task) %> |
-                  <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' } %>
-                <% end %>
-              </td>
-              <td><%= task.date %></td>
-              <td>
-                <% unless task.time.nil?%>
-                  <%= task.time.strftime("%H:%M") %>
-                <% end %>
-              </td>
-              <td><%= task.priority %></td>
-            </tr>
-          <% end %>
-          <tr>
-            <td colspan="4">
-              <%= render 'tasks/form', project: @project %>
-            </td>
-          </tr>
-        </table>
+        <%= render 'tasks/task' %>
       </div>
     </div>
   </div>
